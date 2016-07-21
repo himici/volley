@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
+import com.cache.BitmapCache;
 
 /**
  * Created by Administrator on 2016/7/20.
@@ -27,8 +28,9 @@ public class ImageRequestActivity extends Activity{
 
         img_net = (ImageView) findViewById(R.id.img_net);
         img_net_imageloader = (ImageView) findViewById(R.id.img_net_imageloader);
-        setImageview();
-        setImageviewImageLoader();
+//        setImageview();
+//        setImageviewImageLoader();
+        setImageviewImageLoaderImplementCache();
     }
 
     private void setImageview(){
@@ -49,6 +51,7 @@ public class ImageRequestActivity extends Activity{
         mQueue.add(imageRequest);
     }
 
+
     private void setImageviewImageLoader(){
         RequestQueue mQueue = Volley.newRequestQueue(this);
         ImageLoader imageLoader = new ImageLoader(mQueue, new ImageLoader.ImageCache() {
@@ -62,6 +65,15 @@ public class ImageRequestActivity extends Activity{
 
             }
         });
+        ImageLoader.ImageListener listener = ImageLoader.getImageListener(img_net_imageloader,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
+//        imageLoader.get("http://image.cnwest.com/attachement/jpg/site1/20110412/001372d8a0e00f0e40f12f.jpg", listener);
+        imageLoader.get("http://image.cnwest.com/attachement/jpg/site1/20110412/001372d8a0e00f0e40f12f.jpg",listener, 200, 200);
+    }
+
+
+    private void setImageviewImageLoaderImplementCache(){
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        ImageLoader imageLoader = new ImageLoader(mQueue, new BitmapCache());
         ImageLoader.ImageListener listener = ImageLoader.getImageListener(img_net_imageloader,R.mipmap.ic_launcher,R.mipmap.ic_launcher);
 //        imageLoader.get("http://image.cnwest.com/attachement/jpg/site1/20110412/001372d8a0e00f0e40f12f.jpg", listener);
         imageLoader.get("http://image.cnwest.com/attachement/jpg/site1/20110412/001372d8a0e00f0e40f12f.jpg",listener, 200, 200);
